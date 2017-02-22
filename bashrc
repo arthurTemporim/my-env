@@ -1,6 +1,15 @@
 #!/bin/bash
 iatest=$(expr index "$-" i)
 
+
+#######################################################
+# SHOW GIT BRANCH
+#######################################################
+
+function git_branch_name() {
+git branch 2>/dev/null | grep -e '^*' | sed -E 's/^\* (.+)$/\1/'
+}
+
 #######################################################
 # SOURCED ALIAS'S AND SCRIPTS
 #######################################################
@@ -146,15 +155,15 @@ function __setprompt
 	PS1+="${BLUE} $(date +'%-I':%M:%S%P)\[${DARKGRAY}\])-" # Time
 
 	# CPU
-	PS1+="(\[${MAGENTA}\]CPU $(cpu)%"
+	#PS1+="(\[${MAGENTA}\]CPU $(cpu)%"
 
 	# Jobs
-	PS1+="\[${DARKGRAY}\]:\[${MAGENTA}\]\j"
+	#PS1+="\[${DARKGRAY}\]:\[${MAGENTA}\]\j"
 
 	# Network Connections (for a server - comment out for non-server)
-	PS1+="\[${DARKGRAY}\]:\[${MAGENTA}\]Net $(awk 'END {print NR}' /proc/net/tcp)"
+	#PS1+="\[${DARKGRAY}\]:\[${MAGENTA}\]Net $(awk 'END {print NR}' /proc/net/tcp)"
 
-	PS1+="\[${DARKGRAY}\])-"
+	#PS1+="\[${DARKGRAY}\])-"
 
 	# User and server
 	local SSH_IP=`echo $SSH_CLIENT | awk '{ print $1 }'`
@@ -173,6 +182,11 @@ function __setprompt
 
 	# Number of files
 	PS1+="\[${GREEN}\]\$(/bin/ls -A -1 | /usr/bin/wc -l)\[${DARKGRAY}\])"
+
+
+
+	# Show git branch
+	PS1+="\[${DARKGRAY}\]-(\[\033[31m\]\$(git_branch_name)\[${DARKGRAY}\])"
 
 	# Skip to the next line
 	PS1+="\n"
@@ -195,3 +209,6 @@ function __setprompt
 PROMPT_COMMAND='__setprompt'
 alias grep="/usr/bin/grep $GREP_OPTIONS"
 unset GREP_OPTIONS
+
+export NVM_DIR="/home/arthur/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
