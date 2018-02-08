@@ -14,9 +14,16 @@
 #######################################################
 
 function git_branch_name() {
-git branch 2>/dev/null | grep -e '^*' | sed -E 's/^\* (.+)$/\1/'
+  git branch 2>/dev/null | grep -e '^*' | sed -E 's/^\* (.+)$/\1/'
 }
 
+#######################################################
+# SHOW BATTERY PERCENTAGE
+#######################################################
+
+function battery_percentage() {
+  cat /sys/class/power_supply/BAT0/capacity
+}
 
 #######################################################
 # HISTORY
@@ -123,6 +130,8 @@ function __setprompt
   # Show only the host
   #PS1+="\[${GREEN}\](\[${CYAN}\]\h\[${GREEN}\]):"
 
+  # Show battery percentage
+  PS1+="\[${GREEN}\](\[${YELLOW}\]$(battery_percentage)\[${GREEN}\]):"
   # Date
   #PS1+="\[${GREEN}\](\[${DARKGRAY}\]\$(date +%a) $(date +%b-'%-m')" # Date
   # Show only the time
