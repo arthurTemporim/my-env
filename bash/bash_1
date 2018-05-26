@@ -229,15 +229,6 @@ export LANG=en_US.UTF-8
 alias grep="/usr/bin/grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
-function setup_salic_db() {
-  export SQL_DRIVER=pyodbc
-  export DATABASE_HOST=localhost
-  export DATABASE_USER=minc_lappis_edson
-  export DATABASE_PASSWORD=1w3r5y7i9p
-  # export DATABASE_NAME=
-  export DATABASE_PORT=9000
-}
-
 #######################################################
 # SHOW LS COLORED
 #######################################################
