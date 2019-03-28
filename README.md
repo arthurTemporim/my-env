@@ -1,5 +1,9 @@
-# my_environment
+# My Environment
 In this repository contains files like bashrc, vimrc and others that's i use in my pc.
+
+## Wiki
+
+Checke my [Arch Linux Installation Guide](https://github.com/arthurTemporim/my_environment/wiki/Arch-linux-Instalation).
 
 ## Install
   Just copy and paste the content of files in here in your files.
