@@ -1,21 +1,21 @@
 # GENERAL
-alias baixar="youtube-dl --extract-audio --audio-format mp3 $1"
+alias downvid="youtube-dl --extract-audio --audio-format mp3 $1"
 
 # SO
-alias reSwp="sudo swapoff --all && sudo swapon /dev/sda2 --all"
-alias listIp="sudo arp-scan --interface=wlp3s0 --localnet"
+alias reswp="sudo swapoff --all && sudo swapon /dev/sda2 --all"
+alias listip="sudo arp-scan --interface=wlp3s0 --localnet"
 alias hotspot="sudo create_ap -m nat wlp3s0 enp2s0 TempoArch temposenha;"
 
 # PYTHON
 alias rmpycache="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
 
 # DOCKER
-alias dcstop="sudo docker stop \$(sudo docker ps -q)"
-alias dclist="sudo docker ps"
-alias dcrm="sudo docker rm -f \$(sudo docker ps -aq)"
-alias dcrmi="sudo docker rmi -f \$(sudo docker images -q)"
-alias dcrmall="dcrm && dcrmi && sudo docker volume prune -y \
-               && sudo docker network prune -y"
+alias dcstop="docker stop \$(docker ps -q)"
+alias dcps="docker ps"
+alias dcrm="docker rm -f \$(docker ps -aq)"
+alias dcrmi=" docker rmi -f \$(docker images -q)"
+alias dcrmall="dcrm && dcrmi && docker volume prune -y \
+               &&  docker network prune -y"
 
 # GIT
 # These commands were made using this reference as base
