@@ -222,9 +222,9 @@ source ~/.bash_aliases
 # PYENV
 #######################################################
 
-export PATH="/home/arthur/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#export PATH="/home/arthur/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 #######################################################
 # Set up Node Version Manager
@@ -235,9 +235,9 @@ eval "$(pyenv virtualenv-init -)"
 # VIRTUALENVWRAPPER
 #######################################################
 
-export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
-alias mkvirtualenv="mkvirtualenv -p '/home/arthur/.pyenv/versions/3.6.8/bin/python' $1"
+#export WORKON_HOME=~/.virtualenvs
+#source /usr/bin/virtualenvwrapper.sh
+#alias mkvirtualenv="mkvirtualenv -p '/home/arthur/.pyenv/versions/3.6.8/bin/python' $1"
 
 #######################################################
 # GAMBIRAS
