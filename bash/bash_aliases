@@ -14,8 +14,8 @@ alias dcstop="docker stop \$(docker ps -q)"
 alias dcps="docker ps"
 alias dcrm="docker rm -f \$(docker ps -aq)"
 alias dcrmi=" docker rmi -f \$(docker images -q)"
-alias dcrmall="dcrm && dcrmi && docker volume prune -y \
-               &&  docker network prune -y"
+alias dcrmall="dcrm && dcrmi && docker volume prune -f \
+               &&  docker network prune -f"
 
 # GIT
 # These commands were made using this reference as base
