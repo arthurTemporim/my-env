@@ -22,3 +22,8 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo groupadd docker
 newgrp docker 
+
+# Ruby
+curl -L get.rvm.io > rvm-install
+bash < ./rvm-install
+source ~/.bash_profile
