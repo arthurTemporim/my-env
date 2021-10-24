@@ -24,6 +24,7 @@ sudo groupadd docker
 newgrp docker 
 
 # Ruby
-curl -L get.rvm.io > rvm-install
-bash < ./rvm-install
-source ~/.bash_profile
+yay -S ruby
+#curl -L get.rvm.io > rvm-install
+#bash < ./rvm-installu
+#source ~/.bash_profile
