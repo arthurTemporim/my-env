@@ -4,9 +4,9 @@
 # CONFIGURE ENCONDINGS
 #######################################################
 # Uderstand 'ç'
-export LC_ALL=pt_BR.UTF-8
+#export LC_ALL=pt_BR.UTF-8
 # Use english as default language
-export LANGUAGE=en_US.UTF-8
+#export LANGUAGE=en_US.UTF-8
 
 #######################################################
 # SET VIM AS DEFAULT EDITOR WHEN INSTALLING
