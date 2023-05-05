@@ -8,4 +8,4 @@ curl -fsSL https://get.docker.com -o get-docker.sh && sudo bash get-docker.sh &&
 # Connect to keyboard
 # bluetoothctl agent on && bluetoothctl pair 08:21:01:16:05:89 && bluetoothctl connect 08:21:01:16:05:89
 # PiHole
-curl -sSL https://install.pi-hole.net | bash
+curl -sSL https://install.pi-hole.net | sudo bash
