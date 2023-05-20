@@ -13,14 +13,6 @@ echo "Installing Home Assistant"
 cd && cd Documents
 docker compose up -d
 cd
-sudo mkdir -p ~/.config/lxsession/LXDE-pi
-sudo echo -e "\n\
-@lxpanel --profile LXDE-pi\n\
-@pcmanfm --desktop --profile LXDE-pi\n\
-#@xscreensaver -no-splash\n\
-point-rpi\n\
-@chromium-browser --start-fullscreen --start-maximized http://localhost:8123\n\
-" >> ~/.config/lxsession/LXDE-pi/autostart
 #
 # Connect to keyboard
 # bluetoothctl agent on && bluetoothctl pair 08:21:01:16:05:89 && bluetoothctl connect 08:21:01:16:05:89
