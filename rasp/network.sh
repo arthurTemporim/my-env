@@ -1,4 +1,5 @@
 sudo rm -Rf /var/run/wpa_supplicant/wlan0
+sudo systemctl stop dhcpcd.service
 sudo echo -e "\n\
 network={\n\
 	ssid=\"network\"\n\
