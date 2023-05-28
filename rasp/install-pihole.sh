@@ -16,3 +16,10 @@ sudo apt install vim git links htop tree -y
 curl -sSL https://install.pi-hole.net | sudo bash
 # Restart 
 sudo reboot
+# Change Password
+# pihole -a -p
+# Ad Blocklist
+# https://firebog.net/
+# Get webpass to create disable link
+# cat /etc/pihole/setupVars.conf | grep WEBPASSWORD
+# http://192.168.5.200/admin/api.php?disable=300&auth=WEBPASSWORD
