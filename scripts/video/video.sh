@@ -11,10 +11,9 @@ fi
 input_folder=$1
 output_folder=${2:-"$input_folder"} # Default to an "output" folder within the input folder
 resolution_scale=${3:-0.5}  # Default to scaling to 50%
-bitrate=${4:-2048k}         # Default bitrate
-#bitrate=${4:-1024k}         # Default bitrate
+bitrate=${4:-4096k}         # Default bitrate
 crf=${5:-23}                # Default CRF
-preset=${6:-slow}           # Default preset
+preset=${6:-medium}         # Default preset
 
 # Loop through all video files in the input folder
 for input_file in "$input_folder"/*.*4; do
