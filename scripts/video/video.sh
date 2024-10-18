@@ -11,16 +11,16 @@ fi
 input_folder=$1
 output_folder=${2:-"$input_folder"} # Default to an "output" folder within the input folder
 resolution_scale=${3:-0.5}  # Default to scaling to 50%
-bitrate=${4:-4096k}         # Default bitrate
+bitrate=${4:-8192k}         # Default bitrate
 crf=${5:-23}                # Default CRF
-preset=${6:-medium}         # Default preset
+preset=${6:-fast}         # Default preset
 
 # Loop through all video files in the input folder
 for input_file in "$input_folder"/*.*4; do
     # Get the base name of the file
     base_name=$(basename "$input_file")
     # Create the output file name
-    output_file="${base_name%.*}_shrinked.mp4"
+    output_file="${base_name%.*}_small.mp4"
 
     # Lower resolution and bitrate to reduce file size with NVIDIA GPU acceleration
     ffmpeg -hwaccel nvdec -i "$input_file" -vf "scale=iw*$resolution_scale:ih*$resolution_scale" -c:v h264_nvenc -b:v "$bitrate" -crf "$crf" -preset "$preset" -c:a copy "$output_file"
