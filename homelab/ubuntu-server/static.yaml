@@ -9,5 +9,5 @@ network:
                 addresses: [8.8.8.8, 8.8.4.4]
             routes:
                 - to: default
-                  via: 192.168.0.201 
+                  via: 192.168.0.1
 
