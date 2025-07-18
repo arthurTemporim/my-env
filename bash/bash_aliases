@@ -1,10 +1,5 @@
-# GENERAL
-alias downvid="youtube-dl --extract-audio --audio-format mp3 $1"
-
 # SO
 alias reswp="sudo swapoff --all && sudo swapon /dev/sda2 --all"
-alias listip="sudo arp-scan --interface=wlp3s0 --localnet"
-alias hotspot="sudo create_ap -m nat wlp3s0 enp2s0 TempoArch temposenha;"
 
 # PYTHON
 alias rmpycache="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
@@ -12,76 +7,7 @@ alias rmpycache="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
 # DOCKER
 alias dcstop="docker stop \$(docker ps -q)"
 alias dcps="docker ps"
-alias dcrm="docker rm -f \$(docker ps -aq)"
-alias dcrmi=" docker rmi -f \$(docker images -q)"
+alias dcrm="docker rm -f \$(docker ps -aq) || true"
+alias dcrmi="docker rmi -f \$(docker images -q) || true"
 alias dcrmall="dcrm && dcrmi && docker volume prune -f \
-               &&  docker network prune -f"
-
-# GIT
-# These commands were made using this reference as base
-# https://github.com/robbyrussell/oh-my-zsh/wiki/Cheatsheet#git
-# HELP
-alias ghh=' echo -e "\033
-\e[1m\e[31m# STATUS\e[0m
-\e[1m\e[34mgss\e[0m=git status -s
-\e[1m\e[31m# ADD\e[0m
-\e[1m\e[34mgad\e[0m=git add 
-\e[1m\e[34mgaa\e[0m=git add --all 
-\e[1m\e[31m# COMMIT\e[0m
-\e[1m\e[34mgc\e[0m=git commit -sm
-\e[1m\e[34mgca\e[0m=git commit --ammend 
-\e[1m\e[31m# BRANCH\e[0m
-\e[1m\e[34mgb\e[0m=git branch 
-\e[1m\e[34mgba\e[0m=git branch -a 
-\e[1m\e[31m# PULL\e[0m
-\e[1m\e[34mgpl\e[0m=git pull 
-\e[1m\e[34mggpull\e[0m=git pull origin "$(git_branch_name)" 
-\e[1m\e[31m# PUSH\e[0m
-\e[1m\e[34mggpush\e[0m=git push origin "$(git_branch_name)" 
-\e[1m\e[34mgp\e[0m=git push 
-\e[1m\e[31m# STASH\e[0m
-\e[1m\e[34mgstaa\e[0m=git stash apply 
-\e[1m\e[34mgstall\e[0m=git stash
-\e[1m\e[31m# LOG\e[0m
-\e[1m\e[34mglg\e[0m=git log --graph --pretty=%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset --all 
-\e[1m\e[31m# CHECKOUT\e[0m
-\e[1m\e[34mgcb\e[0m=git checkout -b 
-\e[1m\e[34mgco\e[0m=git checkout 
-\e[1m\e[31m# DIFF\e[0m
-\e[1m\e[34mgd\e[0m=git diff 
-\e[1m\e[31m# FETCH\e[0m
-\e[1m\e[34mgf\e[0m=git fetch 
-\e[1m\e[34mgfa\e[0m=git fetch --all --prune 
-\e[1m\e[34mgfo\e[0m=git fetch origin
-"'
-# STATUS
-alias gss='git status -s'
-# ADD
-alias gad='git add'
-alias gaa='git add --all'
-# COMMIT
-alias gc='git commit -sm'
-alias gca='git commit --amend'
-# BRANCH
-alias gb='git branch'
-alias gba='git branch -a'
-# PULL
-alias gpl='git pull'
-alias ggpull='git pull origin "$(git_branch_name)"'
-# PUSH
-alias ggpush='git push origin "$(git_branch_name)"'
-alias gp='git push'
-# STASH
-alias gstaa='git stash apply'
-alias gstall='git stash'
-# LOG
-alias glg="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all"
-# CHECKOUT
-alias gcb='git checkout -b'
-alias gco='git checkout'
-# DIFF
-alias gd='git diff'
-# FETCH
-alias gf='git fetch'
-alias gfa='git fetch --all --prune'
-alias gfo='git fetch origin'
+    ┆   ┆   ┆  &&  docker network prune -f" 
