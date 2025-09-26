@@ -2,6 +2,44 @@
 
 ## Server configs
 
+### Initial config
+
+```sh
+sudo apt udpdate && sudo apt upgrade -y
+sudo apt install vim git links htop -y
+```
+### Add bashrc
+
+```sh
+curl https://raw.githubusercontent.com/arthurTemporim/my-env/refs/heads/main/bash/bashrc_server > ~/.bashrc
+```
+
+### Docker
+
+1. Uninstall dockers:
+
+```sh
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+
+2. Install docker
+
+```sh
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+3. Start docker:
+```sh
+sudo systemctl start docker
+```
+
+* No sudo user docker:
+
+```sh
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
 ### NVIDIA Tesla P4 GPU installation
 
 ```sh
@@ -60,14 +98,6 @@ sudo systemctl enable --now podman
 sudo apt install cockpit-pcp
 ```
 
-### Docker
-
-* No sudo user docker:
-
-```sh
-sudo groupadd docker
-sudo usermod -aG docker $USER
-```
 
 ### Microk8s
 
@@ -151,7 +181,6 @@ lxc config set core.https_address :8443
 ### NextCloud WIP
 
 * [Nextcloud doc](https://docs.nextcloud.com/server/latest/admin_manual/installation/example_ubuntu.html)
-
 
 
 ### GPU passtrought LXD
