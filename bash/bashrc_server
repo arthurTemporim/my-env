@@ -3,8 +3,6 @@
 #######################################################
 # CONFIGURE ENCONDINGS
 #######################################################
-# Uderstand 'ç'
-#export LC_ALL=pt_BR.UTF-8
 # Use english as default language
 #export LANGUAGE=en_US.UTF-8
 
@@ -190,24 +188,25 @@ shopt -s checkwinsize
 source ~/.bash_aliases
 
 #######################################################
-# PYENV
-#######################################################
-export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
-
-export PATH="${HOME}/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-#######################################################
 # Set up Node Version Manager
 #######################################################
 #source /usr/share/nvm/init-nvm.sh
 
 #######################################################
+# PYENV
+#######################################################
+#export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
+#
+#export PATH="${HOME}/.pyenv/bin:$PATH"
+#eval "$(pyenv init --path)"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+
+
+#######################################################
 # VIRTUALENVWRAPPER
 #######################################################
 
-export WORKON_HOME=$HOME/.virtualenvs
-source ~/.pyenv/versions/3.12.11/bin/virtualenvwrapper.sh
+#export WORKON_HOME=$HOME/.virtualenvs
+#source ~/.pyenv/versions/3.12.11/bin/virtualenvwrapper.sh
 
