@@ -40,7 +40,7 @@ sleep 3
 # 2. System Update & Packages
 echo -e "${GREEN}[1/7] Installing system packages...${NC}"
 sudo apt update && sudo apt upgrade -y
-sudo apt install curl vim htop terminator nvtop links git tree bat openssh-server -y
+sudo apt install -y curl vim htop terminator nvtop links git tree bat openssh-server
 
 # Fix for 'bat' command (Ubuntu installs it as 'batcat')
 if [ ! -f /usr/local/bin/bat ]; then
@@ -52,6 +52,7 @@ fi
 echo -e "${GREEN}[2/7] configuring Git...${NC}"
 if [ -f "$ENV_FILE" ]; then
     # Source the file as the real user to get variables
+    # shellcheck disable=SC1090
     source "$ENV_FILE"
     
     if [ -n "$GIT_NAME" ] && [ -n "$GIT_EMAIL" ]; then
@@ -77,15 +78,15 @@ sudo update-alternatives --set editor /usr/bin/vim.basic
 
 # 5. Docker Setup
 echo -e "${GREEN}[4/7] Installing Docker...${NC}"
-sudo apt install -y ca-certificates
+sudo apt install -y ca-certificates gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null
+# Use .list file (classic deb line) instead of .sources to avoid "malformed stanza" error
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
