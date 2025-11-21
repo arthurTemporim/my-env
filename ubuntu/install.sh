@@ -107,6 +107,7 @@ if [ -f "$USER_HOME/.bashrc" ]; then
     cp "$USER_HOME/.bashrc" "$USER_HOME/.bashrc.backup"
 fi
 sudo -u "$REAL_USER" curl -fsSL "$BASHRC_URL" -o "$USER_HOME/.bashrc"
+touch ~/.bash_aliases
 
 # 8. Finish
 echo -e "${GREEN}-------------------------------------------------${NC}"
