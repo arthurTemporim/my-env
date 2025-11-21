@@ -139,7 +139,7 @@ set ruler
 set number
 
 let no_buffers_menu=1
-colorscheme molokai
+"colorscheme molokai
 
 
 " Better command line completion 
