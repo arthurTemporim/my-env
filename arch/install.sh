@@ -9,7 +9,7 @@ su arthur
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay && makepkg -si && cd
 # Important softwares
-yay -S vim git links htop terminator tree make
+yay -S vim git links htop terminator tree make openssh
 # Git config
 git config --global user.name arthurtemporim
 git config --global user.email arthurrtl@gmail.com
