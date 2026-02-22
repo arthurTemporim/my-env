@@ -5,7 +5,7 @@
 # ==============================================================================
 # 1. System Updates & Tools
 # 2. Docker Installation & Permission Fix (No Sudo)
-# 3. NVIDIA Stack (Drivers + CUDA + Container Toolkit)
+# 3. NVIDIA Stack (Drivers + CUDA + Container Toolkit) - CONDITIONAL
 # 4. User Environment (Bashrc + Vimrc)
 # ==============================================================================
 
@@ -23,8 +23,9 @@ B_CYAN='\033[1;36m'
 B_WHITE='\033[1;37m'
 NC='\033[0m'
 
-# Track failures
+# Track failures & state
 FAILURES=()
+NVIDIA_INSTALLED=false
 
 # --- Helper Functions ---
 
@@ -84,7 +85,8 @@ run_safe "Updating apt repositories" apt-get update
 run_safe "Upgrading existing packages" apt-get upgrade -y
 
 # Install tools individually so one failure doesn't stop others
-TOOLS=(vim htop curl wget tree git make ca-certificates gnupg lsb-release ubuntu-drivers-common software-properties-common)
+# Added pciutils to ensure lspci is available for the NVIDIA check
+TOOLS=(pciutils vim htop curl wget tree git make ca-certificates gnupg lsb-release ubuntu-drivers-common software-properties-common)
 
 for tool in "${TOOLS[@]}"; do
     run_safe "Installing $tool" apt-get install -y $tool
@@ -129,24 +131,34 @@ run_safe "Starting Docker service" systemctl start docker
 # ==============================================================================
 log_header "3. NVIDIA CONFIGURATION"
 
-log_info "Detecting hardware..."
-run_safe "Auto-installing recommended drivers" ubuntu-drivers autoinstall
+log_info "Checking for NVIDIA hardware..."
 
-run_safe "Installing CUDA Toolkit" apt-get install -y nvidia-cuda-toolkit
-run_safe "Installing nvtop" apt-get install -y nvtop
+# Check if lspci detects any NVIDIA device
+if lspci | grep -iq nvidia; then
+    log_success "NVIDIA device detected! Proceeding with GPU setup."
+    NVIDIA_INSTALLED=true
 
-log_info "Setting up NVIDIA Container Toolkit..."
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg --yes \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    log_info "Detecting hardware..."
+    run_safe "Auto-installing recommended drivers" ubuntu-drivers autoinstall
 
-run_safe "Updating apt for NVIDIA Toolkit" apt-get update
-run_safe "Installing NVIDIA Container Toolkit" apt-get install -y nvidia-container-toolkit
+    run_safe "Installing CUDA Toolkit" apt-get install -y nvidia-cuda-toolkit
+    run_safe "Installing nvtop" apt-get install -y nvtop
 
-# Configure Runtime
-run_safe "Configuring Docker Runtime for GPU" nvidia-ctk runtime configure --runtime=docker
-run_safe "Restarting Docker to apply GPU config" systemctl restart docker
+    log_info "Setting up NVIDIA Container Toolkit..."
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg --yes \
+      && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+        sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+        tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+    run_safe "Updating apt for NVIDIA Toolkit" apt-get update
+    run_safe "Installing NVIDIA Container Toolkit" apt-get install -y nvidia-container-toolkit
+
+    # Configure Runtime
+    run_safe "Configuring Docker Runtime for GPU" nvidia-ctk runtime configure --runtime=docker
+    run_safe "Restarting Docker to apply GPU config" systemctl restart docker
+else
+    log_info "No NVIDIA device found. Skipping GPU drivers and toolkits."
+fi
 
 # ==============================================================================
 # 4. User Environment
@@ -154,7 +166,7 @@ run_safe "Restarting Docker to apply GPU config" systemctl restart docker
 log_header "4. USER CONFIGURATION (.bashrc / .vimrc)"
 
 VIMRC_URL="https://raw.githubusercontent.com/arthurTemporim/my-env/refs/heads/main/bash/simple_vimrc"
-BASHRC_URL="https://raw.githubusercontent.com/arthurTemporim/my-env/refs/heads/main/bash/bashrc_server"
+BASHRC_URL="https://raw.githubusercontent.com/arthurTemporim/my-env/refs/heads/main/homelab/ubuntu-server/bashrc_server"
 
 log_info "Applying configs for user: $REAL_USER"
 
@@ -185,8 +197,17 @@ fi
 echo -e "${B_BLUE}################################################################################${NC}"
 
 echo -e "\n${B_WHITE}NEXT STEPS:${NC}"
-echo -e "1. ${B_YELLOW}REBOOT YOUR SERVER${NC} (Required for NVIDIA drivers and Docker group changes)."
-echo -e "2. Or, for Docker only (temp), run: ${B_CYAN}newgrp docker${NC}"
-echo -e "3. Verify installation: ${B_CYAN}docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu20.04 nvidia-smi${NC}"
-echo ""
+if [ "$NVIDIA_INSTALLED" = true ]; then
+    echo -e "1. ${B_YELLOW}REBOOT YOUR SERVER${NC} (Required for NVIDIA drivers and Docker group changes)."
+else
+    echo -e "1. ${B_YELLOW}REBOOT YOUR SERVER${NC} (Required for Docker group changes to apply)."
+fi
 
+echo -e "2. Or, for Docker only (temp), run: ${B_CYAN}newgrp docker${NC}"
+
+if [ "$NVIDIA_INSTALLED" = true ]; then
+    echo -e "3. Verify GPU installation: ${B_CYAN}docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu20.04 nvidia-smi${NC}"
+else
+    echo -e "3. Verify Docker installation: ${B_CYAN}docker run --rm hello-world${NC}"
+fi
+echo ""
