@@ -34,7 +34,7 @@ alias ll='ls --color'
 #######################################################
 
 function battery_percentage {
-  cat /sys/class/power_supply/BAT0/capacity
+  cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1
 }
 
 
@@ -196,7 +196,7 @@ function __setprompt
   # PS4 is used for tracing a script in debug mode
   PS4='\[${GREEN}\]+\[${NOCOLOR}\] '
 }
-PROMPT_COMMAND='__setprompt'
+PROMPT_COMMAND='__setprompt; history -a'
 
 
 #######################################################
@@ -210,7 +210,7 @@ shopt -s checkwinsize
 #######################################################
 # ALIASES
 #######################################################
-source ~/.bash_aliases
+[ -f ~/.bash_aliases ] && source ~/.bash_aliases
 
 #######################################################
 # RUBY
@@ -222,9 +222,9 @@ source ~/.bash_aliases
 # PYENV
 #######################################################
 
-export PATH="/home/arthur/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null && eval "$(pyenv init -)"
 
 #######################################################
 # Set up Node Version Manager
@@ -235,9 +235,13 @@ eval "$(pyenv virtualenv-init -)"
 # VIRTUALENVWRAPPER
 #######################################################
 
+# virtualenvwrapper is installed in the pyenv global python, so mkvirtualenv
+# uses that python by default.
 export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
-alias mkvirtualenv="mkvirtualenv -p '/home/arthur/.pyenv/versions/3.6.8/bin/python' $1"
+if command -v pyenv >/dev/null && pyenv which virtualenvwrapper.sh >/dev/null 2>&1; then
+  export VIRTUALENVWRAPPER_PYTHON="$(pyenv which python)"
+  source "$(pyenv which virtualenvwrapper.sh)"
+fi
 
 #######################################################
 # GAMBIRAS
@@ -246,3 +250,4 @@ alias mkvirtualenv="mkvirtualenv -p '/home/arthur/.pyenv/versions/3.6.8/bin/pyth
 # Shell grep issue
 #alias grep="/usr/bin/grep $GREP_OPTIONS"
 #unset GREP_OPTIONS
+export PATH="$HOME/.local/bin:$PATH"

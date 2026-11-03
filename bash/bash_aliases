@@ -1,5 +1,5 @@
 # SO
-alias reswp="sudo swapoff --all && sudo swapon /dev/sda2 --all"
+alias gen-passwd="date +%s | sha256sum | base64 | head -c 15"
 
 # PYTHON
 alias rmpycache="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
@@ -9,5 +9,10 @@ alias dcstop="docker stop \$(docker ps -q)"
 alias dcps="docker ps"
 alias dcrm="docker rm -f \$(docker ps -aq) || true"
 alias dcrmi="docker rmi -f \$(docker images -q) || true"
-alias dcrmall="dcrm && dcrmi && docker volume prune -f \
-    ┆   ┆   ┆  &&  docker network prune -f" 
+alias dcrmall="dcrm && dcrmi && docker volume prune -f && docker network prune -f"
+
+# LOCAL
+# Machine specific/private aliases (servers, IPs, keys) go in ~/.bash_aliases.local,
+# which is not versioned. Example:
+#   alias server-example="ssh user@192.168.0.10"
+[ -f ~/.bash_aliases.local ] && source ~/.bash_aliases.local
